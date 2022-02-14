@@ -30,14 +30,14 @@
 #include <chrono>
 
 // USAGE
-
+//
 // Timer begins recording time as soon as it is instanced.
-
+//
 // get() returns the recorded time in milliseconds.
-
+//
 // pause() toggles the timer. When called once, it stops recording time,
 // when called twice, it records time back to where you left it.
-
+//
 // reset() resets the recorded time back to 0ms.
 class Timer
 {
