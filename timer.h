@@ -1,44 +1,47 @@
-// Copyright (c) 2022 moowool195@gmail.com. All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions
-// are met:
-// 1. Redistributions of source code must retain the above copyright
-//    notice, this list of conditions and the following disclaimer.
-// 2. Redistributions in binary form must reproduce the above copyright
-//    notice, this list of conditions and the following disclaimer in the
-//    documentation and/or other materials provided with the distribution.
-// 3. Neither the name of the University nor the names of its contributors
-//    may be used to endorse or promote products derived from this software
-//    without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
-// FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-// OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-// HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-// LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-// OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-// SUCH DAMAGE.
+/*
+ * Copyright (c) 2022 moowool195@gmail.com. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the University nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
 
-#ifndef TIMER_H
-#define TIMER_H
+#pragma once
 
 #include <chrono>
 
-// USAGE
-//
-// Timer begins recording time as soon as it is instanced.
-//
-// get() returns the recorded time in milliseconds.
-//
-// pause() toggles the timer. When called once, it stops recording time,
-// when called twice, it records time back to where you left it.
-//
-// reset() resets the recorded time back to 0ms.
+/*
+ * USAGE
+ *
+ * Timer begins recording time as soon as it is instanced.
+ *
+ * get() returns the recorded time in milliseconds.
+ *
+ * pause() toggles the timer. When called once, it stops recording time,
+ * when called twice, it records time back to where you left it.
+ *
+ * reset() resets the recorded time back to 0ms.
+ */
 class Timer
 {
 	using Us = std::chrono::microseconds;
@@ -61,7 +64,7 @@ class Timer
 		return std::chrono::time_point_cast<Period>(point).time_since_epoch();
 	}
 
-	// Returns the recorded time.
+	/* Returns the recorded time. */
 	template<class Duration>
 	Duration getDuration() const{
 		TimeStamp endTimePoint = TimeStamp(Clock::now());
@@ -92,8 +95,8 @@ public:
 	{
 	}
 
-	// Toggles the timer to record paused time.
-	// It will be subtracted from the total recorded time.
+	/* Toggles the timer to record paused time. */
+	/* It will be subtracted from the total recorded time. */
 	void pause(){
 		if (!paused){
 			m_StartPauseTimePoint = std::chrono::time_point<Clock>(Clock::now());
@@ -110,7 +113,7 @@ public:
 		paused = !paused;
 	}
 
-	// Resets current and paused time, and unpauses.
+	/* Resets current and paused time, and unpauses. */
 	void reset(){
 		m_StartTimePoint = Clock::now();
 
@@ -122,10 +125,9 @@ public:
 		paused = false;
 	}
 
-	template<class Duration> // std::chrono::duration, e.g. std::chrono::seconds
+	/* std::chrono::duration, e.g. std::chrono::seconds*/
+	template<class Duration>
 	long long get(){
 		return getDuration<Duration>().count();
 	}
 };
-
-#endif // TIMER_H
